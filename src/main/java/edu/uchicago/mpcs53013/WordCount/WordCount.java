@@ -23,8 +23,41 @@ public class WordCount {
 			StringTokenizer tokenizer = new StringTokenizer(line);
 			while (tokenizer.hasMoreTokens()) {
 				word.set(tokenizer.nextToken());
-				context.write(word, one);
+				// modifying code
+				char[] chars = word.toString().toCharArray();
+				for(char ch: chars){
+					String charType = getCharType(ch);
+					Text textType = new Text();
+					textType.set(charType);
+					context.write(textType, one);
+					
+				}
+						
+//				context.write(word, one);
 			}
+		}
+		
+		public String getCharType(char ch){
+			if(Character.isDigit(ch)){
+				return "digit";
+			}
+			else if(Character.isLetter(ch)){
+				if(Character.isLowerCase(ch)){
+					return "lowercase";
+				}
+				else{
+					assert(Character.isTitleCase(ch));
+					return "uppercase";
+				}
+			}
+			else if(Character.isSpaceChar(ch)){
+				return "space";
+			}
+			else{
+				assert(Character.isDefined(ch));
+				return "punctuation";
+			}
+			
 		}
 	} 
 
